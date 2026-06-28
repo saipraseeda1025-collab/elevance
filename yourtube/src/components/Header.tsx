@@ -38,7 +38,7 @@ const Header = () => {
     }
   };
   return (
-    <header className="flex items-center justify-between px-4 py-2 bg-white border-b">
+    <header className="flex items-center justify-between px-4 py-2 bg-background text-foreground border-b transition-all duration-300">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon">
           <Menu className="w-6 h-6" />
@@ -118,6 +118,10 @@ const Header = () => {
                 <DropdownMenuItem asChild>
                   <Link href="/history">History</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+  <Link href="/verify">Verify Account</Link>
+</DropdownMenuItem>
+
                 <DropdownMenuItem asChild>
                   <Link href="/liked">Liked videos</Link>
                 </DropdownMenuItem>

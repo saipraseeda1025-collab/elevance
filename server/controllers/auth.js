@@ -9,9 +9,11 @@ export const login = async (req, res) => {
 
     if (!existingUser) {
       const newUser = await users.create({ email, name, image });
-      return res.status(201).json({ result: newUser });
+      console.log(newUser);
+return res.status(201).json({ result: newUser });
     } else {
-      return res.status(200).json({ result: existingUser });
+      console.log(existingUser);
+return res.status(200).json({ result: existingUser });
     }
   } catch (error) {
     console.error("Login error:", error);

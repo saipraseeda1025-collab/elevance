@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
 import {
   Clock,
   Download,
@@ -88,6 +89,53 @@ const VideoInfo = ({ video }: any) => {
       console.log(error);
     }
   };
+  const handleDownload = async () => {
+  if (!user) {
+    toast.error("Please login first");
+    return;
+  }
+
+  try {
+    console.log("Video object:", video);
+    console.log("Video ID:", video._id);
+
+    const res = await axiosInstance.post(`/video/download/${video._id}`, {
+      userId: user._id,
+    });
+
+    if (res.data.success) {
+      toast.success(
+        `Download started! Remaining: ${res.data.remaining}`
+      );
+
+
+      // Download the file
+      const link = document.createElement("a");
+      link.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/${res.data.filePath.replace(
+        /\\/g,
+        "/"
+      )}`;
+      link.download = video.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Update localStorage download count
+      const updatedUser = {
+        ...user,
+        downloadCount: user.downloadCount + 1,
+      };
+
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    }
+  } catch (error: any) {
+    console.error(error);
+
+    toast.error(
+      error?.response?.data?.message || "Download failed"
+    );
+  }
+};
   const handleDislike = async () => {
     if (!user) return;
     try {
@@ -179,6 +227,7 @@ const VideoInfo = ({ video }: any) => {
             variant="ghost"
             size="sm"
             className="bg-gray-100 rounded-full"
+            onClick={handleDownload}
           >
             <Download className="w-5 h-5 mr-2" />
             Download

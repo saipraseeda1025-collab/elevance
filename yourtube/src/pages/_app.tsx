@@ -1,21 +1,31 @@
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import "@/styles/globals.css";
+import Script from "next/script";
+import  ThemeDetector  from "@/lib/ThemeDetector";
+// Ignore missing type declarations for global CSS import
+// @ts-ignore
+import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { UserProvider } from "../lib/AuthContext";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <UserProvider>
-      <div className="min-h-screen bg-white text-black">
-        <title>Your-Tube Clone</title>
-        <Header />
-        <Toaster />
-        <div className="flex">
-          <Sidebar />
-          <Component {...pageProps} />
-        </div>
-      </div>
-    </UserProvider>
+  <Script
+    src="https://checkout.razorpay.com/v1/checkout.js"
+    strategy="beforeInteractive"
+  />
+  <ThemeDetector />
+
+  <div id="app-root" className="min-h-screen bg-background text-foreground transition-all duration-300" style={{ transition: "all 0.5s ease" }}>
+    <title>Your-Tube Clone</title>
+    <Header />
+    <Toaster />
+    <div className="flex">
+      <Sidebar />
+      <Component {...pageProps} />
+    </div>
+  </div>
+</UserProvider>
   );
 }
