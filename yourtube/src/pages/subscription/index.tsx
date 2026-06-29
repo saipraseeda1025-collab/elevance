@@ -83,7 +83,8 @@ export default function SubscriptionPage() {
         amount: Number(plan.price),
       }
     );
-
+console.log("Backend URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
+console.log("Razorpay Key:", process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
     const options = {
       key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
 
